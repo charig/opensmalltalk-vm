@@ -17,11 +17,11 @@ if test \! -f SqueakV50.sources ; then
 	fi
 fi
 
-if [ ! -f $BASE64.image ]; then
+if [ ! -f $BASE.image ]; then
 	. ./getlatesttrunk64image.sh
-	echo $VM $BASE64.image NukePreferenceWizardMorph.st
-	$VM $BASE64.image NukePreferenceWizardMorph.st
+	echo $VM $BASE.image NukePreferenceWizardMorph.st
+	$VM $BASE.image NukePreferenceWizardMorph.st
 fi
 
-echo $VM $BASE64.image UpdateSqueakTrunkImage.st
-$VM $BASE64.image UpdateSqueakTrunkImage.st
+echo $VM $BASE.image UpdateSqueakTrunkImage.st
+$VM $BASE.image UpdateSqueakTrunkImage.st
