@@ -1,0 +1,174 @@
+sqStubs.c: In function 'ioCurrentOSThread':
+sqStubs.c:17:12: warning: return makes pointer from integer without a cast [-Wint-conversion]
+sqStubs.c: In function 'ioLocalMicroseconds':
+sqStubs.c:134:60: warning: implicit declaration of function 'get64' [-Wimplicit-function-declaration]
+ unsigned volatile long long ioLocalMicroseconds() { return get64(localMicrosecondClock); }
+sqStubs.c: In function 'ioLocalMicrosecondsNow':
+sqStubs.c:136:63: warning: implicit declaration of function 'currentUTCMicroseconds'; did you mean 'ioUTCMicroseconds'? [-Wimplicit-function-declaration]
+ unsigned volatile long long ioLocalMicrosecondsNow() { return currentUTCMicroseconds() + vmGMTOffset; };
+                                                               ioUTCMicroseconds
+sqStubs.c: In function 'ioSetHeartbeatMilliseconds':
+sqStubs.c:141:20: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  beatperiod.tv_sec = beatMilliseconds / 1000;
+sqStubs.c: In function 'ioHeartbeatFrequency':
+sqStubs.c:176:3: warning: implicit declaration of function 'set64' [-Wimplicit-function-declaration]
+sqStubs.c: In function 'ioHasDisplayDepth':
+sqStubs.c:216:10: warning: implicit declaration of function 'abs' [-Wimplicit-function-declaration]
+   return abs(depth) == ioScreenDepth();
+sqStubs.c: In function 'ioExitWithErrorCode':
+sqStubs.c:247:2: warning: implicit declaration of function 'set_std_console_debugging' [-Wimplicit-function-declaration]
+sqStubs.c:248:2: warning: implicit declaration of function 'printf_pocho'; did you mean '__printf_chk'? [-Wimplicit-function-declaration]
+  printf_pocho("ioExit()\n\n");
+sqStubs.c:249:2: warning: implicit declaration of function 'printCallStack' [-Wimplicit-function-declaration]
+sqStubs.c:252:2: warning: implicit declaration of function 'enter_debug_mode' [-Wimplicit-function-declaration]
+sqStubs.c: In function 'ioShowDisplay':
+sqStubs.c:267:21: warning: initialization makes integer from pointer without a cast [-Wint-conversion]
+sqStubs.c:271:35: warning: implicit declaration of function 'bytesPerLineRD'; did you mean 'BytesPerOop'? [-Wimplicit-function-declaration]
+sqStubs.c:272:34: warning: implicit declaration of function 'bytesPerLine'; did you mean 'BytesPerOop'? [-Wimplicit-function-declaration]
+sqStubs.c:278:23: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+sqStubs.c:279:21: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+sqStubs.c:281:19: warning: implicit declaration of function 'repack' [-Wimplicit-function-declaration]
+sqStubs.c:288:30: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+sqStubs.c:289:28: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+sqStubs.c:292:19: warning: implicit declaration of function 'swap32' [-Wimplicit-function-declaration]
+sqStubs.c:297:16: warning: passing argument 1 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+sqStubs.c:297:39: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+sqStubs.c:300:1: warning: control reaches end of non-void function [-Wreturn-type]
+sqStubs.c:191:13: warning: 'primitiveVMProfileSamplesInto' defined but not used [-Wunused-function]
+build/libnopsys.obj: In function `ints_signal_master_semaphore':
+build/libnopsys.obj: In function `ints_signal_slave_semaphore':
+build/libnopsys.obj: In function `nopsys_exit':
+build/libnopsys.obj: In function `nopsys_main':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `heapMapAtWord':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `heapMapAtWordPut':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ioLoadExternalFunctionOfLengthFromModuleOfLength':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ioLoadExternalFunctionOfLengthFromModuleOfLengthAccessorDepthInto':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ioLoadSymbolOfLengthFromModule':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `addSynchronousTickee':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `addHighPriorityTickee':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `pushOutputFile':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `popOutputFile':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `printPhaseTime':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `sqImageFileClose':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `sqImageCopyMemoryBlock':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `sqMemoryFileWrite':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `sqMain':
+/Users/guidochari/Documents/Projects/CogNOS/opensmalltalk-vm/platforms/nopsys/sqPlatformSpecific.c:96: undefined reference to `checkImageVersionFromstartingAt'
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ioLocalMicroseconds':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ioLocalMicrosecondsNow':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ioHeartbeatFrequency':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ioExitWithErrorCode':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ioShowDisplay':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `popToReg':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `storeToReg':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `genGetActiveContextNumArgslargeinBlock':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `inverseBranchFor':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `generateStackPointerCapture':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `trampolineNamenumArgs':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `trampolineNamenumRegArgs':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `callCogCodePopReceiver':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `enterCogCodePopReceiver':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `compactCompiledCode':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `mapObjectReferencesInMachineCodeForBecome':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `mapObjectReferencesInMachineCode':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `initializeCodeZoneFromupTo':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `findFrameAboveinPage':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveExitToDebugger':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `stackPageHeadroom':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `allocateOrExtendSegmentInfos':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `writeScavengeLog':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveExponent':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveTruncated':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveCrashVM':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `warning':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `findSPOfon':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `initSegmentBridgeWithBytesat':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `addSegmentOfSize':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `initFreeChunkWithBytesat':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `useSegmentForSavedFirstFieldsSpace':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `unlinkFreeChunk':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `callbackLeave':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `warningat':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `mcprimFunctionForPrimitiveIndex':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `quickPrimitiveConstantFor':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `openScavengeLog':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `okayOop':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ceSendMustBeBooleanTointerpretingAtDelta':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `copyAndUnmarkMobileObjects':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `pushRemappableOop':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `positiveMachineIntegerFor':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `allocateNewSpaceSlotsformatclassIndex':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `noInlineSigned32BitIntegerGutsFor':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveSecondsClock':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveExp':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveLogN':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveArctan':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveSine':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveSquareRoot':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveTimesTwoPower':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveFractionalPart':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `stackPageByteSize':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `stackLimitBytes':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `initializeStacknumSlotspageSize':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `makePointwithxValueyValue':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `returntoExecutive':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ceReturnToInterpreter':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `executeCogPICfromLinkedSendWithReceiverandCacheTag':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ownVM':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `createActualMessageTo':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `printHex':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `print':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `printStringOf':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `growOldSpaceByAtLeast':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveClipboardText':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `stringForCString':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveGetenv':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `growRememberedSet':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `classAtIndexput':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `copyToOldSpacebytesformat':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ensureRoomOnObjStackAt':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `doScavenge':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveTerminateTo':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `wakeHighestPriority':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `popObjStack':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveGetAttribute':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveVMPath':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveDivideLargeIntegers':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveDivLargeIntegers':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveModLargeIntegers':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveRemLargeIntegers':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveClockLogAddresses':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `pruneStackstackp':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveVMParameter':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `compact':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `shrinkObjectMemory':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `printOopShort':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `printFrameOopindexat':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `readImageFromFileHeapSizeStartingAt':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `makeBaseFrameFor':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `returnToExecutivepostContextSwitch':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `activateCoggedNewMethod':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ceStackOverflow':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `interpretMethodFromMachineCode':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `handleMNUInMachineCodeToclassForMessage':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `ceBaseFrameReturn':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `mustMapMachineCodePCcontext':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `instructionPointerForFramecurrentFPcurrentIP':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveSlotAt':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveInstVarAt':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `returnAsThroughCallbackContext':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `snapshot':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveSnapshotEmbedded':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveSnapshot':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveVoidVMState':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveLongRunningPrimitiveSemaphore':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveProfileSemaphore':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `changeClassOfto':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveVoidVMStateForMethod':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `interpret':
+/Users/guidochari/Documents/Projects/CogNOS/opensmalltalk-vm/platforms/nopsys/../../spursrc/vm/gcc3x-cointerp.c:2705: undefined reference to `ioInitHeartbeat'
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `enterSmalltalkExecutiveImplementation':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `callbackEnter':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `stObjectat':
+../opensmalltalk-vm/platforms/nopsys/vm.obj: In function `primitiveImageName':
+../opensmalltalk-vm/platforms/nopsys/vm.obj:(.data+0x6c): undefined reference to `SoundGenerationPlugin_exports'

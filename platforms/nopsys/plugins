@@ -1,0 +1,3 @@
+# for now this is a handmade list of internal plugins
+
+INTERNAL_PLUGINS = ADPCMCodecPlugin B2DPlugin BitBltPlugin DSAPrims ZipPlugin FFTPlugin FloatArrayPlugin LargeIntegers Matrix2x3Plugin SqueakNOSPlugin StarSqueakPlugin
