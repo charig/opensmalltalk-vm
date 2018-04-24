@@ -65,7 +65,7 @@ build/%.pluginobj:
 	@$(MAKE) XDEFS=-DSQUEAK_BUILTIN_PLUGIN PLUGIN=$* plugin
 
 $(OPENLIBM):
-	make USEGCC=1 -C $(OPENLIBMDIR)
+	make USEGCC=1 LOCALLIBC=../../../nopsys/src/libc/ -C $(OPENLIBMDIR)
 
 plugin: $(PLUGIN_OBJS_BUILD) 
 	$(AR) rc build/$(PLUGIN).pluginobj $(PLUGIN_OBJS_BUILD)
