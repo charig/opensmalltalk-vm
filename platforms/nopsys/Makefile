@@ -65,9 +65,6 @@ build/%.pluginobj:
 	@$(MAKE) XDEFS=-DSQUEAK_BUILTIN_PLUGIN PLUGIN=$* plugin
 
 $(OPENLIBM):
-	sed -i.bak 's/CFLAGS_add += -fno-gnu89-inline -fno-builtin/CFLAGS_add += -fno-gnu89-inline -fno-builtin -fno-stack-protector/' $(OPENLIBMDIR)/Make.inc
-	#The backup is needed for the command to work in MAC
-	rm $(OPENLIBMDIR)/Make.inc.bak 
 	make USEGCC=1 -C $(OPENLIBMDIR)
 
 plugin: $(PLUGIN_OBJS_BUILD) 
