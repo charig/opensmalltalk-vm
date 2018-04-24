@@ -4,4 +4,4 @@ The following commands generate the necessary sources to compile CogNOS:
 VMMaker generateSqueakNOS64VM
 
 2. To generate the sources for the plugins run:
-VMMaker generateVMPlugins
+VMMaker generateSqueakNOSPlugins

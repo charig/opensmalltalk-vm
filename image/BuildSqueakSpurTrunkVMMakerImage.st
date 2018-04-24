@@ -41,8 +41,7 @@ load do:
 	  packages do:
 		[:package| | latestVersion |
 		"We need to filter-out branches of unbranched packages."
-		latestVersion := (repository versionNamesForPackageNamed: package) detect:
-							[:versionName| (versionName at: package size + 1) = $-].
+		latestVersion := (repository highestNumberedVersionForPackageNamed: package) fileName.
 		[| version |
 		version := ((MCCacheRepository default includesVersionNamed: latestVersion)
 					ifTrue: [MCCacheRepository default]
