@@ -8,8 +8,6 @@
 #include <sq.h>
 #include <sqAtomicOps.h>
 #include <sqAssert.h>
-#include <sqSCCSVersion.h>
-
 
 // taken from nopsys computer, is for squeaknos for now
 snapshot_info_t snapshot;
@@ -198,8 +196,11 @@ char * GetAttributeString(sqInt id)
 	if (id == 1006) return VM_BUILD_STRING;
 	if (id == 1007) return interpreterVersion;
 	if (id == 1008) return "$COGIT CLASS VERSION";
-	if (id == 1009) return sourceVersionString(' ');
-
+	/* It is not good to include sqsccsversion.h. 
+	Find another way of defining version*/
+	// if (id == 1009) return sourceVersionString(' '); 
+	if (id == 1009) return 1; 
+	
 	/* attribute undefined by this platform */
 	success(false);
 	return "";
