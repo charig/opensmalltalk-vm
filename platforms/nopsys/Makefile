@@ -58,7 +58,7 @@ cognos: build_dir sqNamedPrims.h $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 #$(LDFLAGS)
 
 image: $(ROOTDIR)/image/$(IMAGE).image
-	mkdir -p $(VM_BUILDDIR)/extra
+	mkdir -p build/extra
 	cp $(ROOTDIR)/image/$(IMAGE).image $(ROOTDIR)/image/$(IMAGE).changes build/extra
 
 sqNamedPrims.h: plugins 
