@@ -2,6 +2,8 @@
 ROOTDIR = ../../..
 VMDIR = ../..
 
+IMAGE = SqueakNOS
+
 include $(ROOTDIR)/nopsys/compilation.conf
 include plugins
 
@@ -49,9 +51,15 @@ PLUGIN_OBJS_BUILD = $(addprefix build/, $(PLUGIN_OBJS))
 # setup make path so that it finds .c files
 VPATH = $(COGDIR):$(CROSSDIR)/vm:$(NOPSYSDIR):$(VMDIR)/src/plugins/$(PLUGIN):$(CROSSDIR)/plugins/$(PLUGIN)
 
+.PHONY: cognos image iso
+
 cognos: build_dir sqNamedPrims.h $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 	$(CC) -o build/vm.obj $(CFLAGS) $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 #$(LDFLAGS)
+
+image: $(ROOTDIR)/image/$(IMAGE).image
+	mkdir -p $(VM_BUILDDIR)/extra
+	cp $(ROOTDIR)/image/$(IMAGE).image $(ROOTDIR)/image/$(IMAGE).changes build/extra
 
 sqNamedPrims.h: plugins 
 	./gen_plugins_file.sh $(INTERNAL_PLUGINS)
@@ -71,17 +79,17 @@ plugin: $(PLUGIN_OBJS_BUILD)
 	$(AR) rc build/$(PLUGIN).pluginobj $(PLUGIN_OBJS_BUILD)
 	$(RM) $(PLUGIN_OBJS_BUILD)
 
-iso: cognos
+iso: cognos image
 	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@
 
-try-%: cognos
+try-%: iso
 	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@ 
 
 clean:
 	rm -rf build/*
 	make -C $(ROOTDIR)/nopsys clean
 
-build_dir: $(IMAGE)
-	mkdir -p build/extra
+build_dir:
+	mkdir -p build
 
 
