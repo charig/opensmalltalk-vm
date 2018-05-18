@@ -240,6 +240,8 @@ static unsigned long pageMask = ~0xFFF;
 void *
 sqAllocateMemorySegmentOfSizeAboveAllocatedSizeInto(sqInt size, void *minAddress, sqInt *allocatedSizePointer)
 {
+	// FIXME: should somehow check if address is available
+	*allocatedSizePointer = roundUpToPage(size);
 	return (char *)roundUpToPage((uintptr_t)minAddress);
 }
 
