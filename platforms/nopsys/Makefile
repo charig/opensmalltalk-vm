@@ -23,9 +23,15 @@ VM_BUILDDIR=../opensmalltalk-vm/platforms/nopsys/build
 OPENLIBMDIR = $(VMDIR)/third-party/openlibm
 OPENLIBM = $(OPENLIBMDIR)/libopenlibm.a
 
+VM=jit
 
 CROSS_C_FILES  = $(wildcard $(CROSSDIR)/vm/*.c)
+ifeq ($(VM),interpreter)
+COG_C_FILES    = $(COGDIR)/gcc3x-interp.c
+else
 COG_C_FILES    = $(COGDIR)/cogit.c $(COGDIR)/gcc3x-cointerp.c
+endif
+
 NOPSYS_C_FILES = $(wildcard $(NOPSYSDIR)/*.c)
 
 ALLPLUGIN_OBJS = $(addsuffix .pluginobj, $(INTERNAL_PLUGINS)) 
