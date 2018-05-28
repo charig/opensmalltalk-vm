@@ -62,7 +62,7 @@ int max(int a, int b)
 
 void perror(const char *s)
 {
-//	breakpoint();
+	// breakpoint();
 	// FIXME: Should print also errno and a corresponding message
 	if (s)
 		printf("%s\n", s);
@@ -129,9 +129,11 @@ static unsigned long long currentUTCMicroseconds()
  * necessary since optimizing C compilers for x86 may use %ebp as a general-
  * purpose register, in which case it must not be captured.
  */
+
 int
 isCFramePointerInUse()
 {
+#if NOPSYS_COGVM
 	extern unsigned long CStackPointer, CFramePointer;
 	extern void (*ceCaptureCStackPointers)(void);
 	unsigned long currentCSP = CStackPointer;
@@ -140,8 +142,8 @@ isCFramePointerInUse()
 	ceCaptureCStackPointers();
 	assert(CStackPointer < currentCSP);
 	return CFramePointer >= CStackPointer && CFramePointer <= currentCSP;
+#endif
 }
-
 
 // from unix/vm/sqUnixThreads.c
 
@@ -599,6 +601,7 @@ extern computer_t computer;
 //From SqUnixMain.c and SqUnixDisplayNull
 sqInt ioForceDisplayUpdate(void)
 {
+	//printf("forcing display update\n");
 	return 0;
 }
 
@@ -639,9 +642,16 @@ sqInt ioSetCursorWithMask(sqInt cursorBitsIndex, sqInt cursorMaskIndex, sqInt of
  * definition here.  If any of the display subsystems do need it then it will
  * have to be reimplemented as per the functions above.
  */
-void  ioNoteDisplayChangedwidthheightdepth(void *b, int w, int h, int d) {}
+void  ioNoteDisplayChangedwidthheightdepth(void *b, int w, int h, int d) {
+	//printf("note display changed b: %x, w: %d, h: %d, d: %d\n", b, w, h, d);
 
-sqInt ioFormPrint(sqInt bitsAddr, sqInt width, sqInt height, sqInt depth, double hScale, double vScale, sqInt landscapeFlag) { return false; }
+}
+
+sqInt ioFormPrint(sqInt bitsAddr, sqInt width, sqInt height, sqInt depth, double hScale, double vScale, sqInt landscapeFlag)
+{ 
+	//printf("ioFormPrint stub\n");
+	return false;
+}
 
 /* Take care with the following implementations!!!*/
 sqInt ioGetWindowWidth()
@@ -700,6 +710,8 @@ sqInt ioShowDisplay(sqInt fromImageData, sqInt width, sqInt height, sqInt depth,
   lastWord= scanLine*affectedT + BYTES_PER_LINE_PADDED(affectedR, depth);
   countPerLine = lastWord - firstWord;
 
+
+
   switch (computer.video_info.depth) {
     case 16:
       for (line= affectedT; line < affectedB; line++, firstWord += scanLine) {
@@ -725,7 +737,8 @@ sqInt ioShowDisplay(sqInt fromImageData, sqInt width, sqInt height, sqInt depth,
         memcpy((char*)toImageData+firstWord, (char*)fromImageData+firstWord, countPerLine);
       break;
   }
-	return 0;
+
+  return 0;
 }
 
 void sqMakeMemoryExecutableFromTo(unsigned long startAddr, unsigned long endAddr)
