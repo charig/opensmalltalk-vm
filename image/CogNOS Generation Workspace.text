@@ -3,5 +3,8 @@ The following commands generate the necessary sources to compile CogNOS:
 1. To generate the sources for the runtime run:
 VMMaker generateSqueakNOS64VM
 
+Or the following for generating an interpret instead of a JIT compiler:
+VMMaker generateSqueakNOS64Stack
+
 2. To generate the sources for the plugins run:
 VMMaker generateSqueakNOSPlugins
