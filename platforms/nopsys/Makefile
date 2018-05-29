@@ -24,7 +24,7 @@ OPENLIBMDIR = $(VMDIR)/third-party/openlibm
 OPENLIBM = $(OPENLIBMDIR)/libopenlibm.a
 
 VM=jit
-#VM=interpreter
+VM=interpreter
 
 
 CROSS_C_FILES  = $(wildcard $(CROSSDIR)/vm/*.c)
@@ -60,13 +60,13 @@ PLUGIN_OBJS_BUILD = $(addprefix build/, $(PLUGIN_OBJS))
 # setup make path so that it finds .c files
 VPATH = $(COGDIR):$(CROSSDIR)/vm:$(NOPSYSDIR):$(VMDIR)/src/plugins/$(PLUGIN):$(CROSSDIR)/plugins/$(PLUGIN)
 
-.PHONY: cognos image iso
+.PHONY: image iso
 
-cognos: build_dir sqNamedPrims.h $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
+build/vm.obj: build sqNamedPrims.h $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 	$(CC) -o build/vm.obj $(CFLAGS) $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 #$(LDFLAGS)
 
-image: $(ROOTDIR)/image/$(IMAGE).image
+build/extra: $(ROOTDIR)/image/$(IMAGE).image
 	mkdir -p build/extra
 	cp $(ROOTDIR)/image/$(IMAGE).image $(ROOTDIR)/image/$(IMAGE).changes build/extra
 
@@ -88,8 +88,8 @@ plugin: $(PLUGIN_OBJS_BUILD)
 	$(AR) rc build/$(PLUGIN).pluginobj $(PLUGIN_OBJS_BUILD)
 	$(RM) $(PLUGIN_OBJS_BUILD)
 
-iso: cognos image
-	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@
+iso: build/vm.obj build/extra
+	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys --trace $@
 
 try-%: iso
 	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@ 
@@ -98,7 +98,7 @@ clean:
 	rm -rf build/*
 	make -C $(ROOTDIR)/nopsys clean
 
-build_dir:
+build:
 	mkdir -p build
 
 
