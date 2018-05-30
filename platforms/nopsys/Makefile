@@ -3,6 +3,7 @@ ROOTDIR = ../../..
 VMDIR = ../..
 
 IMAGE = SqueakNOS
+STORAGE = iso
 
 include $(ROOTDIR)/nopsys/compilation.conf
 include plugins
@@ -91,7 +92,10 @@ plugin: $(PLUGIN_OBJS_BUILD)
 iso: build/vm.obj build/extra
 	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@
 
-try-%: iso
+hd: build/vm.obj build/extra
+	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@
+
+try-%: $(STORAGE)
 	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@ 
 
 clean:
