@@ -89,7 +89,7 @@ plugin: $(PLUGIN_OBJS_BUILD)
 	$(RM) $(PLUGIN_OBJS_BUILD)
 
 iso: build/vm.obj build/extra
-	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys --trace $@
+	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@
 
 try-%: iso
 	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@ 
