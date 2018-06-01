@@ -49,11 +49,11 @@ VMOBJS_BUILD = $(addprefix build/, $(VMOBJS))
 
 INCS =-I$(CROSSDIR)/plugins/$(PLUGIN) -I$(CROSSDIR)/vm -I$(COGDIR) -I$(NOPSYSDIR) -I$(ROOTDIR)/nopsys/src -I$(ROOTDIR)/nopsys/src/libc
 
-ifeq ($(PLUGIN),SqueakFFIPrims)
-	ALL_PLUGIN_C_FILES = $(wildcard ../../src/plugins/$(PLUGIN)/SqueakFFIPrims.c) $(wildcard $(CROSSDIR)/plugins/$(PLUGIN)/*.c)
-else
+#ifeq ($(PLUGIN),SqueakFFIPrims)
+#	ALL_PLUGIN_C_FILES = $(wildcard ../../src/plugins/$(PLUGIN)/SqueakFFIPrims.c) $(wildcard $(CROSSDIR)/plugins/$(PLUGIN)/*.c)
+#else
 	ALL_PLUGIN_C_FILES = $(wildcard ../../src/plugins/$(PLUGIN)/*.c) $(wildcard $(CROSSDIR)/plugins/$(PLUGIN)/*.c)
-endif
+#endif
 PLUGIN_C_FILES = $(filter-out $(CROSSDIR)/plugins/$(PLUGIN)/BitBltArm%, $(ALL_PLUGIN_C_FILES))
 PLUGIN_OBJS = $(notdir $(PLUGIN_C_FILES:.c=.o))
 PLUGIN_OBJS_BUILD = $(addprefix build/, $(PLUGIN_OBJS))
@@ -61,7 +61,7 @@ PLUGIN_OBJS_BUILD = $(addprefix build/, $(PLUGIN_OBJS))
 # setup make path so that it finds .c files
 VPATH = $(COGDIR):$(CROSSDIR)/vm:$(NOPSYSDIR):$(VMDIR)/src/plugins/$(PLUGIN):$(CROSSDIR)/plugins/$(PLUGIN)
 
-.PHONY: image iso
+.PHONY: iso
 
 build/vm.obj: build sqNamedPrims.h $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 	$(CC) -o build/vm.obj $(CFLAGS) $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
@@ -72,7 +72,7 @@ build/extra: $(ROOTDIR)/image/$(IMAGE).image
 	cp $(ROOTDIR)/image/$(IMAGE).image $(ROOTDIR)/image/$(IMAGE).changes build/extra
 
 sqNamedPrims.h: plugins 
-	./gen_plugins_file.sh $(INTERNAL_PLUGINS)
+	./gen_plugins_file.sh $(INTERNAL_PLUGINS_EXPORTS)
 	rm -f $(VM_BUILDDIR)/sqNamedPrims.o
 
 build/%.o: %.c

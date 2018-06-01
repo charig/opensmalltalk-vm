@@ -11,6 +11,7 @@ extern sqExport FFTPlugin_exports[];
 extern sqExport FloatArrayPlugin_exports[];
 extern sqExport LargeIntegers_exports[];
 extern sqExport Matrix2x3Plugin_exports[];
+extern sqExport X64SysVFFIPlugin_exports[];
 extern sqExport SqueakNOSPlugin_exports[];
 extern sqExport StarSqueakPlugin_exports[];
 
@@ -26,6 +27,7 @@ sqExport *pluginExports[] = {
 	 FloatArrayPlugin_exports,
 	 LargeIntegers_exports,
 	 Matrix2x3Plugin_exports,
+	 X64SysVFFIPlugin_exports,
 	 SqueakNOSPlugin_exports,
 	 StarSqueakPlugin_exports,
 	 NULL
