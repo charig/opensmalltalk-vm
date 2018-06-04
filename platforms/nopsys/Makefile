@@ -67,9 +67,10 @@ build/vm.obj: build sqNamedPrims.h $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 	$(CC) -o build/vm.obj $(CFLAGS) $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 #$(LDFLAGS)
 
-build/extra: $(ROOTDIR)/image/$(IMAGE).image
-	mkdir -p build/extra
-	cp $(ROOTDIR)/image/$(IMAGE).image $(ROOTDIR)/image/$(IMAGE).changes build/extra
+build/extra-files:
+	echo -n "../image/" >build/extra-files
+	find $(ROOTDIR)/image -name PharoV60.sources -printf "%P" >>build/extra-files
+	echo " ../image/$(IMAGE).image ../image/$(IMAGE).changes" >>build/extra-files
 
 sqNamedPrims.h: plugins 
 	./gen_plugins_file.sh $(INTERNAL_PLUGINS_EXPORTS)
@@ -89,10 +90,10 @@ plugin: $(PLUGIN_OBJS_BUILD)
 	$(AR) rc build/$(PLUGIN).pluginobj $(PLUGIN_OBJS_BUILD)
 	$(RM) $(PLUGIN_OBJS_BUILD)
 
-iso: build/vm.obj build/extra
+iso: build/vm.obj build/extra-files
 	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@
 
-hd: build/vm.obj build/extra
+hd: build/vm.obj build/extra-files
 	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@
 
 try-%: $(STORAGE)
