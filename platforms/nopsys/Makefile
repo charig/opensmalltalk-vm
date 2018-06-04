@@ -96,7 +96,7 @@ hd: build/vm.obj build/extra
 	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@
 
 try-%: $(STORAGE)
-	export VM_BUILDDIR=$(VM_BUILDDIR) && make -C $(ROOTDIR)/nopsys $@ 
+	export VM_BUILDDIR=$(VM_BUILDDIR) STORAGE=$(STORAGE) && make -C $(ROOTDIR)/nopsys $@ 
 
 clean:
 	rm -rf build/*
