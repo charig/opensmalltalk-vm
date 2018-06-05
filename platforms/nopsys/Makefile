@@ -70,8 +70,9 @@ build/vm.obj: build sqNamedPrims.h $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 build/extra-files:
 	touch build/extra-files
 	printf "../image/" >> build/extra-files
-	#$(FIND) $(ROOTDIR)/image -name PharoV60.sources -printf "%P" >>build/extra-files
-	printf "pharo-vm/PharoV60.sources" >> build/extra-files
+	$(FIND) $(ROOTDIR)/image -name PharoV60.sources -printf "%P" >>build/extra-files
+# find adds an enter in osx even if downloading the unix find from findutils	
+#printf "pharo-vm/PharoV60.sources" >> build/extra-files
 	printf " ../image/$(IMAGE).image ../image/$(IMAGE).changes" >>build/extra-files
 
 sqNamedPrims.h: plugins 
