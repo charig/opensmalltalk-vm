@@ -68,9 +68,11 @@ build/vm.obj: build sqNamedPrims.h $(VMOBJS_BUILD) $(INTERNAL_LIBS) $(OPENLIBM)
 #$(LDFLAGS)
 
 build/extra-files:
-	echo -n "../image/" >build/extra-files
-	find $(ROOTDIR)/image -name PharoV60.sources -printf "%P" >>build/extra-files
-	echo " ../image/$(IMAGE).image ../image/$(IMAGE).changes" >>build/extra-files
+	touch build/extra-files
+	printf "../image/" >> build/extra-files
+	#$(FIND) $(ROOTDIR)/image -name PharoV60.sources -printf "%P" >>build/extra-files
+	printf "pharo-vm/PharoV60.sources" >> build/extra-files
+	printf " ../image/$(IMAGE).image ../image/$(IMAGE).changes" >>build/extra-files
 
 sqNamedPrims.h: plugins 
 	./gen_plugins_file.sh $(INTERNAL_PLUGINS_EXPORTS)
