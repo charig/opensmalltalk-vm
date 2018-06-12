@@ -15,7 +15,6 @@ CFLAGS = $(CFLAGS_ARCH) -std=gnu11 -Wall --no-pie -nostdinc -nostdlib \
 
 DEFS  = -DNO_STD_FILE_SUPPORT -DDEBUG -DLSB_FIRST $(DEFS_ARCH) $(XDEFS)
 
-COGDIR    = $(VMDIR)/spur64src/vm
 CROSSDIR  = $(VMDIR)/platforms/Cross
 NOPSYSDIR = $(VMDIR)/platforms/nopsys
 
@@ -24,17 +23,20 @@ VM_BUILDDIR=../opensmalltalk-vm/platforms/nopsys/build
 OPENLIBMDIR = $(VMDIR)/third-party/openlibm
 OPENLIBM = $(OPENLIBMDIR)/libopenlibm.a
 
-VM=jit
+#VM=jit
 VM=interpreter
 
 
 CROSS_C_FILES  = $(wildcard $(CROSSDIR)/vm/*.c)
 ifeq ($(VM),interpreter)
+COGDIR    = $(VMDIR)/spurstack64src/vm
 COG_C_FILES    = $(COGDIR)/gcc3x-interp.c
 else
+COGDIR    = $(VMDIR)/spur64src/vm
 COG_C_FILES    = $(COGDIR)/cogit.c $(COGDIR)/gcc3x-cointerp.c
 DEFS+= -DNOPSYS_COGVM
 endif
+
 
 NOPSYS_C_FILES = $(wildcard $(NOPSYSDIR)/*.c)
 
