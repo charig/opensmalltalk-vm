@@ -1,4 +1,4 @@
-[[[[MCMcmUpdater
+[[[MCMcmUpdater
 			defaultUpdateURL: 'http://source.squeak.org/trunk';
 			updateFromServer] valueSupplyingAnswer: true]
 		on: Deprecation
@@ -9,8 +9,6 @@
 		((text beginsWith: 'This package depends on the following classes')
 		 or: [text beginsWith: 'About to serialize an empty diffy version.']) ifFalse:
 			[ex pass].
-		ex resume]]
-	on: NetworkError
-	do: [:ex | ex retry].
+		ex resume].
 
 Smalltalk snapshot: true andQuit: true

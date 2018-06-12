@@ -6,5 +6,5 @@ LATEST=`curl -s $URL | tr "=" "\\012" | grep Squeak6.0alpha.*64bit | tail -1 | s
 echo curl -o $LATEST.zip $URL/$LATEST/$LATEST.zip
 curl -o $LATEST.zip $URL/$LATEST/$LATEST.zip
 unzip $LATEST.zip
-mv $LATEST.image $BASE.image
-mv $LATEST.changes $BASE.changes
+mv $LATEST.image $BASE-64.image
+mv $LATEST.changes $BASE-64.changes

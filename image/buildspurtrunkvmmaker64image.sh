@@ -2,16 +2,12 @@
 set -e
 . ./envvars.sh
 
-if [ "$1" = "-headless" ]
-then
- ARGS="$1"
-else
- ARGS=""
-fi
+./updatespur64image.sh "$@"
 
-./updatespur64image.sh "$ARGS"
+cp -p $BASE64.image Spur64VMMaker.image
+cp -p $BASE64.changes Spur64VMMaker.changes
 
-source get64VMName.sh
+. ./getGoodSpur64VM.sh
 
-echo $VM $BASE.image BuildSqueakSpurTrunkVMMakerImage.st
-$VM $ARGS $BASE.image BuildSqueakSpurTrunkVMMakerImage.st
+echo $VM Spur64VMMaker.image BuildSqueakSpurTrunkVMMakerImage.st
+$VM Spur64VMMaker.image BuildSqueakSpurTrunkVMMakerImage.st

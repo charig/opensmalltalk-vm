@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-BASE=BuildCogNOS
+BASE=trunk6
+BASE64=trunk6-64
 
 # N.B. uname -r (OSREL) is not to be trusted on Mac OS X;
 

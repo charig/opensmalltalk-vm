@@ -14,10 +14,9 @@ manifest := #(	('http://source.squeak.org/FFI'					1	('FFI-Pools' 'FFI-Kernel'))
 				('http://www.squeaksource.com/XDCP'				9	('VMConstruction-Plugins-XDisplayControlPlugin' ))
 				('http://www.squeaksource.com/Balloon3D'		9	('Balloon3D-Constants' 'Balloon3D-Plugins'  ))
 				('http://www.squeaksource.com/Cryptography'		9	('CryptographyPlugins'  ))
-				('http://smalltalkhub.com/mc/Alistair/FileAttributesPlugin/main'		9	('FileAttributesPlugin'  ))
+				('http://smalltalkhub.com/mc/Alistair/FileAttributesPlugin/main'		9	('FileAttributesPlugin.oscog'  ))
 				('http://ss3.gemstone.com/ss/AndreasSystemProfiler'	9	('AndreasProfiler'))
 				('http://www.squeaksource.com/Printf'			5	('Printf'))
-				('http://smalltalkhub.com/mc/GuidoChari/SqueakNOS/main'			10	('SqueakNOS'))
 				).
 
 load := (manifest collect:
@@ -36,35 +35,38 @@ load := (manifest collect:
 	[:fileName| (FileDirectory default fileNamed: fileName) fileIn].
 
 load do:
-	[:tuple |
+	[:tuple|
 	 [:repository :order :packages|
 	  packages do:
-		[:package |
-			[
-			| latestVersion |
-			"We need to filter-out branches of unbranched packages."
-			latestVersion := (repository highestNumberedVersionForPackageNamed: package) fileName.
-			[| version |
-			version := ((MCCacheRepository default includesVersionNamed: latestVersion)
-						ifTrue: [MCCacheRepository default]
-						ifFalse: [repository]) versionNamed: latestVersion.
-			version load.
-			version workingCopy repositoryGroup addRepository: repository]
-				on: Warning
-				do: [:ex|
-					((ex messageText beginsWith: 'This package depends on the following classes')
-					or: [ex messageText beginsWith: 'About to serialize an empty diffy version.']) ifFalse:
-						[ex pass].
-					ex resume]]
-			on: NetworkError
-			do: [:ex | ex retry] 
-		] 
-	   ]
-	  valueWithArguments: tuple].
+		[:package | | packageVersions latestVersion |
+		"We need to filter-out branches of unbranched packages, but can't assume
+		the package list is (reverse) ordered."
+		packageVersions := ((repository versionNamesForPackageNamed: package)
+			select: [:versionName| (versionName at: package size + 1) = $-])
+			asSortedCollection: [ :a :b | a versionNumber < b versionNumber ].
+		latestVersion := packageVersions last.
+		[| version |
+		version := ((MCCacheRepository default includesVersionNamed: latestVersion)
+					ifTrue: [MCCacheRepository default]
+					ifFalse: [repository]) versionNamed: latestVersion.
+		 version load.
+		 version workingCopy repositoryGroup addRepository: repository]
+			on: Warning
+			do: [:ex|
+				((ex messageText beginsWith: 'This package depends on the following classes')
+				 or: [ex messageText beginsWith: 'About to serialize an empty diffy version.']) ifFalse:
+					[ex pass].
+				ex resume]]]
+		valueWithArguments: tuple].
 
 World findATranscript: nil.
 
-#('CogNOS Generation') reverseDo:
+UIManager default
+	edit: (FileDirectory default fileNamed: 'Workspace.text') contentsOfEntireFile
+	label: 'Overview'.
+
+
+#('VM Simulation' 'Source Generation' 'Slang Test' 'In-image Compilation') reverseDo:
 	[:nickname| | label workspace |
 	label := nickname, ' Workspace'.
 	workspace := (UIManager default
