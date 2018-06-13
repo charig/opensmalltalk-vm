@@ -17,6 +17,7 @@ manifest := #(	('http://source.squeak.org/FFI'					1	('FFI-Pools' 'FFI-Kernel'))
 				('http://smalltalkhub.com/mc/Alistair/FileAttributesPlugin/main'		9	('FileAttributesPlugin.oscog'  ))
 				('http://ss3.gemstone.com/ss/AndreasSystemProfiler'	9	('AndreasProfiler'))
 				('http://www.squeaksource.com/Printf'			5	('Printf'))
+				('http://smalltalkhub.com/mc/GuidoChari/SqueakNOS/main'			10	('SqueakNOS'))
 				).
 
 load := (manifest collect:
@@ -66,7 +67,7 @@ UIManager default
 	label: 'Overview'.
 
 
-#('VM Simulation' 'Source Generation' 'Slang Test' 'In-image Compilation') reverseDo:
+#('CogNOS Generation') reverseDo:
 	[:nickname| | label workspace |
 	label := nickname, ' Workspace'.
 	workspace := (UIManager default
