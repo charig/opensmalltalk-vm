@@ -31,6 +31,6 @@ SoundPlugin \
 StarSqueakPlugin \
 LocalePlugin \
 UnixOSProcessPlugin \
-VMProfileLinuxSupportPlugin \
+#VMProfileLinuxSupportPlugin \
 #Klatt \
 

@@ -35,4 +35,4 @@ SoundGenerationPlugin \
 SoundPlugin \
 StarSqueakPlugin \
 SurfacePlugin \
-VMProfileLinuxSupportPlugin
+#VMProfileLinuxSupportPlugin

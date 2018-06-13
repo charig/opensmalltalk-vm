@@ -10,10 +10,33 @@ if [ "$1" = -source ]; then
 	SourceFile="$2"
 	shift; shift
 else
-	SourceFile="PharoV50"
+	SourceFile="PharoV60"
 fi
-SOURCE=../../sources/$SourceFile.sources
-test -f $SOURCE || SOURCE=../../../sources/$SourceFile.sources
+
+#  try to use curl if possible
+if [[ `which curl 2> /dev/null` ]]; then
+	DOWNLOAD="curl --silent --location --compressed ";
+	DOWNLOAD_TO="$DOWNLOAD --output ";
+elif [[ `which wget 2> /dev/null` ]]; then
+	DOWNLOAD_TO="wget --quiet --output-document=";
+	DOWNLOAD="$DOWNLOAD_TO-";
+else
+	echo "Please install curl or wget on your machine";
+	exit 1
+fi
+
+VERSION="61"
+FILES_URL="http://files.pharo.org/get-files/${VERSION}"
+SourceFile=PharoV60
+if [ ! -f $SourceFile.sources ]
+then
+	$DOWNLOAD_TO sources.zip $FILES_URL/sources.zip
+	unzip -q sources.zip
+	rm -rf sources.zip
+fi
+
+SOURCE=$SourceFile.sources
+
 if [ -f squeak ]; then
 	mv squeak pharo
 	sed -i 's/squeak/pharo/g' pharo
