@@ -36,30 +36,32 @@ load := (manifest collect:
 	[:fileName| (FileDirectory default fileNamed: fileName) fileIn].
 
 load do:
-	[:tuple|
+	[:tuple |
 	 [:repository :order :packages|
 	  packages do:
-		[:package | | packageVersions latestVersion |
-		"We need to filter-out branches of unbranched packages, but can't assume
-		the package list is (reverse) ordered."
-		packageVersions := ((repository versionNamesForPackageNamed: package)
-			select: [:versionName| (versionName at: package size + 1) = $-])
-			asSortedCollection: [ :a :b | a versionNumber < b versionNumber ].
-		latestVersion := packageVersions last.
-		[| version |
-		version := ((MCCacheRepository default includesVersionNamed: latestVersion)
-					ifTrue: [MCCacheRepository default]
-					ifFalse: [repository]) versionNamed: latestVersion.
-		 version load.
-		 version workingCopy repositoryGroup addRepository: repository]
-			on: Warning
-			do: [:ex|
-				((ex messageText beginsWith: 'This package depends on the following classes')
-				 or: [ex messageText beginsWith: 'About to serialize an empty diffy version.']) ifFalse:
-					[ex pass].
-				ex resume]]]
-		valueWithArguments: tuple].
-
+		[:package |
+			[
+			| latestVersion |
+			"We need to filter-out branches of unbranched packages."
+			latestVersion := (repository highestNumberedVersionForPackageNamed: package) fileName.
+			[| version |
+			version := ((MCCacheRepository default includesVersionNamed: latestVersion)
+						ifTrue: [MCCacheRepository default]
+						ifFalse: [repository]) versionNamed: latestVersion.
+			version load.
+			version workingCopy repositoryGroup addRepository: repository]
+				on: Warning
+				do: [:ex|
+					((ex messageText beginsWith: 'This package depends on the following classes')
+					or: [ex messageText beginsWith: 'About to serialize an empty diffy version.']) ifFalse:
+						[ex pass].
+					ex resume]]
+			on: NetworkError
+			do: [:ex | ex retry] 
+		] 
+	   ]
+	  valueWithArguments: tuple].
+	  
 World findATranscript: nil.
 
 UIManager default
