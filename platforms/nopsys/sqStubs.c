@@ -103,17 +103,6 @@ ioInitThreads()
 
 
 // from unix/vm/sqUnixMain.c
-static unsigned long long currentUTCMicroseconds()
-{
-	perror("currentUTCMicroseconds needs gettimeofday");
-	return 0;
-	//struct timeval utcNow;
-	//gettimeofday(&utcNow,0);
-	//return ((utcNow.tv_sec * MicrosecondsPerSecond) + utcNow.tv_usec)
-	//		+ MicrosecondsFrom1901To1970;
-}
-
-// from unix/vm/sqUnixMain.c
 /*
  * Support code for Cog.
  * a) Answer whether the C frame pointer is in use, for capture of the C stack
@@ -418,79 +407,58 @@ struct timespec {
 
 static struct timespec beatperiod = { 0, DEFAULT_BEAT_MS * 1000 * 1000 };
 
+// return amount of milliseconds 
+long ioMSecs(void) {
+	sqInt milliseconds = nopsys_ticks*1000.0/TIMER_FREQ_HZ;
+	return milliseconds;
+}
 
 long ioMicroMSecs(void) {
   /* return the highest available resolution of the millisecond clock */
   return ioMSecs();	/* this already to the nearest millisecond */
 }
 
-long ioMSecs(void) {
-	extern unsigned long timer;
-	sqInt answer;
-	answer = timer*1000.0/TIMER_FREQUENCY;
-	return answer;
-}
 
-// Implement properly to support timezones
-void ioUpdateVMTimezone() {}
-
-sqLong
-ioHighResClock(void)
+sqLong ioHighResClock(void)
 {
-  /* return the value of the high performance counter */
-  sqLong value = 0;
-
-#if defined(__GNUC__) && (defined(i386) || defined(__i386) || defined(__i386__))
-    __asm__ __volatile__ ("rdtsc" : "=A"(value));
-#elif defined(__GNUC__) && (defined(x86_64) || defined(__x86_64) || defined (__x86_64__))
-    __asm__ __volatile__ ("rdtsc\n\t"			// Returns the time in EDX:EAX.
-						"shl $32, %%rdx\n\t"	// Shift the upper bits left.
-						"or %%rdx, %0"			// 'Or' in the lower bits.
-						: "=a" (value)
-						: 
-						: "rdx");
-#elif defined(__arm__) && (defined(__ARM_ARCH_6__) || defined(__ARM_ARCH_7A__))
-	/* tpr - do nothing for now; needs input from eliot to decide further */
-	/* Tim, not sure I have input beyond:
-		Is there a 64-bit clock on ARM?  If so, access it here :-)
-	 */
-#else
-# error "no high res clock defined"
-#endif
-  return value;
+  return get_tsc();
 }
 
-sqInt ioRelinquishProcessorForMicroseconds(sqInt mSecs)	{
-    // I believe adding a hlt here is nicer for the microprocessor
-    // I also believe it'll save battery life laptops, for example
-    // but on VMWare makes time go slower, which actually is a good sign
-    // Ok, got the problem. See documentation for ProcessorScheduler>>relinquishProcessorForMicroseconds:
-    // This function may take less time than asked with mSecs,
-    // but can't take longer than it. Our timer is at 18.2 Hz, giving 55ms
-    // and this function is called from the ProcessorScheduler>>idleProcess
-    // with 1ms (and also with 10ms from #sweepHandleProcess). Hence, if
-    // we enable the "hlt", we'll stop for 55ms minimum (unless another IRQ
-    // comes in).
-    // To be able to enable this we need to increase the frequency to >1KHz
-    // (a max divider of 1193 for the timer IRQ)
-    // Should we try to use APIC instead?
-
-	asm("hlt");
-	return 0;
+unsigned volatile long long  ioUTCMicrosecondsNow()
+{
+  return ioHighResClock() * 1000000.0 / nopsys_tsc_freq;
 }
+
+unsigned volatile long long  ioUTCMicroseconds()
+{
+  return ioUTCMicrosecondsNow();
+}
+
+unsigned volatile long long ioLocalMicroseconds()
+{
+	//FIXME: returning garbage
+	return localMicrosecondClock;
+}
+
 
 sqInt ioSecondsNow(void)
 {
 	return ioLocalMicrosecondsNow() / MicrosecondsPerSecond;
 }
 
-unsigned volatile long long ioLocalMicroseconds()
-{
-	return get64(localMicrosecondClock);
-}
-
 sqInt ioLocalSecondsOffset() {
 	return vmGMTOffset / MicrosecondsPerSecond;
+}
+
+// from unix/vm/sqUnixMain.c
+unsigned long long currentUTCMicroseconds()
+{
+	perror("currentUTCMicroseconds needs gettimeofday");
+	return 0;
+	//struct timeval utcNow;
+	//gettimeofday(&utcNow,0);
+	//return ((utcNow.tv_sec * MicrosecondsPerSecond) + utcNow.tv_usec)
+	//		+ MicrosecondsFrom1901To1970;
 }
 
 unsigned volatile long long ioLocalMicrosecondsNow()
@@ -511,11 +479,29 @@ void ioSetHeartbeatMilliseconds(int ms)
 }
 
 
-unsigned volatile long long  ioUTCMicroseconds()
-{
-  //FIXME: printf("See /platforms/Cross/vm/sqVirtualMachine.c:150 and decide how to implement ioUTCMicroseconds\n");
-  return ioHighResClock() / 1000;
+
+
+// CAREFUL: We use hlt instruction, which pauses the processor
+// until next interrupt. In default nopsys configuration, that'd be 0.5 ms.
+// Now, documentation for ProcessorScheduler>>relinquishProcessorForMicroseconds:
+// says the prim can return _before_ the arg passed, but not after.
+// relinquish is sent from the ProcessorScheduler>>idleProcess
+// with 1ms (and also with 10ms from #sweepHandleProcess). 
+
+sqInt ioRelinquishProcessorForMicroseconds(sqInt mSecs)
+	{
+	float hlt_pause_in_ms = 1000.0 / TIMER_FREQ_HZ;
+	int times = 1; //mSecs / hlt_pause_in_ms;
+
+	for (int i = 0; i < times; i++)
+		asm("hlt");
+		
+	return 0;
 }
+
+// Implement properly to support timezones
+void ioUpdateVMTimezone() {}
+
 
 
 
@@ -542,11 +528,6 @@ uint16_t get_cmos_day()
 	return bcd_to_bin(day);
 }
 
-unsigned volatile long long  ioUTCMicrosecondsNow()
-{
-  //FIXME: printf("See /platforms/Cross/vm/sqVirtualMachine.c:150 and decide how to implement ioUTCMicrosecondsNow\n");
-  return ioHighResClock() / 1000;
-}
 
 /* See SqUnixHertbeat.c line 73*/
 void
