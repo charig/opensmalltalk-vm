@@ -9,11 +9,11 @@ include $(ROOTDIR)/nopsys/compilation.conf
 include plugins
 
 # -ffreestanding
-CFLAGS = $(CFLAGS_ARCH) -std=gnu11 -Wall --no-pie -nostdinc -nostdlib \
-			-fno-stack-protector -g -O1 -fno-inline -fno-omit-frame-pointer -r \
-			-Wno-unknown-pragmas 
+CFLAGS = $(CFLAGS_ARCH) -Wall -nostdinc -nostdlib \
+			-msse2 -fno-inline -fno-omit-frame-pointer -r\
+			-Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-value -Wno-unused-label -Wno-unused-function -Wno-unused-but-set-variable  
 
-DEFS  = -DNO_STD_FILE_SUPPORT -DDEBUG -DLSB_FIRST $(DEFS_ARCH) $(XDEFS)
+DEFS  = -DNDEBUG -DDEBUGVM=0 -DPharoVM -DLSB_FIRST=1 $(DEFS_ARCH) $(XDEFS)
 
 CROSSDIR  = $(VMDIR)/platforms/Cross
 NOPSYSDIR = $(VMDIR)/platforms/nopsys
@@ -31,10 +31,11 @@ CROSS_C_FILES  = $(wildcard $(CROSSDIR)/vm/*.c)
 ifeq ($(VM),interpreter)
 COGDIR    = $(VMDIR)/spurstack64src/vm
 COG_C_FILES    = $(COGDIR)/gcc3x-interp.c
+DEFS+= -g -O1
 else
 COGDIR    = $(VMDIR)/spur64src/vm
 COG_C_FILES    = $(COGDIR)/cogit.c $(COGDIR)/gcc3x-cointerp.c
-DEFS+= -DNOPSYS_COGVM
+DEFS+= -DNOPSYS_COGVM -DCOGMTVM=0 -g -O1
 endif
 
 
@@ -51,11 +52,11 @@ VMOBJS_BUILD = $(addprefix build/, $(VMOBJS))
 
 INCS =-I$(CROSSDIR)/plugins/$(PLUGIN) -I$(CROSSDIR)/vm -I$(COGDIR) -I$(NOPSYSDIR) -I$(ROOTDIR)/nopsys/src -I$(ROOTDIR)/nopsys/src/libc
 
-#ifeq ($(PLUGIN),SqueakFFIPrims)
-#	ALL_PLUGIN_C_FILES = $(wildcard ../../src/plugins/$(PLUGIN)/SqueakFFIPrims.c) $(wildcard $(CROSSDIR)/plugins/$(PLUGIN)/*.c)
-#else
+ifeq ($(PLUGIN),SqueakFFIPrims)
+	ALL_PLUGIN_C_FILES = $(wildcard  ../../src/plugins/$(PLUGIN)/X64SysVFFIPlugin.c) $(wildcard $(CROSSDIR)/plugins/$(PLUGIN)/*.c)
+else
 	ALL_PLUGIN_C_FILES = $(wildcard ../../src/plugins/$(PLUGIN)/*.c) $(wildcard $(CROSSDIR)/plugins/$(PLUGIN)/*.c)
-#endif
+endif
 PLUGIN_C_FILES = $(filter-out $(CROSSDIR)/plugins/$(PLUGIN)/BitBltArm%, $(ALL_PLUGIN_C_FILES))
 PLUGIN_OBJS = $(notdir $(PLUGIN_C_FILES:.c=.o))
 PLUGIN_OBJS_BUILD = $(addprefix build/, $(PLUGIN_OBJS))
