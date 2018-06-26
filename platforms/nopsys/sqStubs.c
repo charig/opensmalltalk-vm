@@ -370,15 +370,35 @@ findExternalFunctionIn(char *functionName, ModuleEntry *module, sqInt fnameLengt
     return 0;
 }*/
 
+void fillInto(char *dst, size_t startOffset, size_t size, char *src)
+{
+	memcpy(dst+startOffset, src, size);
+}
+
+#define NOPSYSC_HANDLE (void*)0x9090
+
 void * ioFindExternalFunctionInAccessorDepthInto(char *lookupName, void *moduleHandle, sqInt *accessorDepthPtr){
-    perror("CogNOS should not call external functions!");
+    if (moduleHandle != NOPSYSC_HANDLE)
+	    perror("CogNOS only supports ffi calls to 'nopsysC' right now!");
+    
+	if (strcmp(lookupName, "fillInto") == 0)
+		return fillInto;
+    
+    perror("function not found!");
+    
     return 0;
 }
 
-void *ioLoadModule(char *pluginName)
+void *ioLoadModule(char *moduleName)
 {
-	//printf("looking for external module %s.\n", pluginName);
-	return 0;
+	if (strcmp(moduleName, "nopsysC") != 0)
+	{
+		//printf("Looking for external module %s. Module not available\n", moduleName);
+		return 0;
+	}
+	
+	printf("Looking for external module %s. Module not available\n", moduleName);
+	return NOPSYSC_HANDLE;
 }  
 
 sqInt ioFreeModule(void *moduleHandle)
