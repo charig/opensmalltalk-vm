@@ -13,7 +13,11 @@ CFLAGS = $(CFLAGS_ARCH) -Wall -nostdinc -nostdlib \
 			-msse2 -fno-inline -fno-omit-frame-pointer -r\
 			-Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-value -Wno-unused-label -Wno-unused-function -Wno-unused-but-set-variable  
 
+#CGLAGS += -mno-omit-leaf-frame-pointer ???
+
 DEFS  = -DNDEBUG -DDEBUGVM=0 -DPharoVM -DLSB_FIRST=1 $(DEFS_ARCH) $(XDEFS)
+
+# DEFS += -DITIMER_HEARTBEAT=1; We do not implement threads, would change to timerheartbeat improve things?
 
 CROSSDIR  = $(VMDIR)/platforms/Cross
 NOPSYSDIR = $(VMDIR)/platforms/nopsys
