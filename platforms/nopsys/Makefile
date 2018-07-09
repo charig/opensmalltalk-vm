@@ -10,7 +10,7 @@ include plugins
 
 #CGLAGS += -mno-omit-leaf-frame-pointer ???
 # -ffreestanding
-CFLAGS = $(CFLAGS_ARCH) -Wall -nostdinc -nostdlib \
+CFLAGS = $(CFLAGS_ARCH) -Wall -nostdinc -nostdlib -std=c99\
 			-msse2 -fno-inline -fno-omit-frame-pointer -r\
 			-Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-value -Wno-unused-label -Wno-unused-function -Wno-unused-but-set-variable  
 
