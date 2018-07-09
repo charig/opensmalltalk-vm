@@ -31,14 +31,14 @@ VM=interpreter
 
 
 CROSS_C_FILES  = $(wildcard $(CROSSDIR)/vm/*.c)
-ifeq ($(VM),interpreter)
-COGDIR    = $(VMDIR)/spurstack64src/vm
-COG_C_FILES    = $(COGDIR)/gcc3x-interp.c
-DEFS+= -g -O1
+ifdef JIT
+	COGDIR    = $(VMDIR)/spur64src/vm
+	COG_C_FILES    = $(COGDIR)/cogit.c $(COGDIR)/gcc3x-cointerp.c
+	DEFS+= -DNOPSYS_COGVM -DCOGMTVM=0 -g -O1
 else
-COGDIR    = $(VMDIR)/spur64src/vm
-COG_C_FILES    = $(COGDIR)/cogit.c $(COGDIR)/gcc3x-cointerp.c
-DEFS+= -DNOPSYS_COGVM -DCOGMTVM=0 -g -O1
+	COGDIR    = $(VMDIR)/spurstack64src/vm
+	COG_C_FILES    = $(COGDIR)/gcc3x-interp.c
+	DEFS+= -g -O1
 endif
 
 
