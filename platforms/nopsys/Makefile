@@ -15,7 +15,7 @@ CFLAGS = $(CFLAGS_ARCH) -Wall -nostdinc -nostdlib -std=gnu11\
 			-Wno-unknown-pragmas -Wno-missing-braces -Wno-unused-value -Wno-unused-label -Wno-unused-function -Wno-unused-but-set-variable  
 
 
-DEFS  = -DNDEBUG -DDEBUGVM=0 -DPharoVM -DLSB_FIRST=1 -DITIMER_HEARTBEAT $(DEFS_ARCH) $(XDEFS)
+DEFS  = -DNDEBUG -DDEBUGVM=0 -DPharoVM -DLSB_FIRST=1 -DITIMER_HEARTBEAT=1 $(DEFS_ARCH) $(XDEFS)
 
 
 CROSSDIR  = $(VMDIR)/platforms/Cross
