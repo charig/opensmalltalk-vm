@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-BASE64=BuildCogNOS
+BASE64=BuildCogNos
 
 # N.B. uname -r (OSREL) is not to be trusted on Mac OS X;
 
