@@ -2,7 +2,7 @@
 ROOTDIR = ../../..
 VMDIR = ../..
 
-IMAGE = SqueakNOS
+IMAGE = CogNos
 STORAGE = iso
 
 include $(ROOTDIR)/nopsys/compilation.conf
