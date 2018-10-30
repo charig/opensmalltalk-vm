@@ -26,10 +26,6 @@ VM_BUILDDIR=../opensmalltalk-vm/platforms/nopsys/build
 OPENLIBMDIR = $(VMDIR)/third-party/openlibm
 OPENLIBM = $(OPENLIBMDIR)/libopenlibm.a
 
-#VM=jit
-VM=interpreter
-
-
 CROSS_C_FILES  = $(wildcard $(CROSSDIR)/vm/*.c)
 ifdef JIT
 	COGDIR    = $(VMDIR)/spur64src/vm
